@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: openai-agents
+Version: 0.0.1
+Summary: Loading...
+Project-URL: Homepage, https://github.com/openai/openai-python
+Project-URL: Issues, https://github.com/openai/openai-python/issues
+Author-email: Kevin Whinnery <kwhinnery@openai.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# Placeholder
+
+Loading...

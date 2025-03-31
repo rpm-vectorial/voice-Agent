@@ -1,0 +1,85 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ 
+## 🧩 Feature-Based Iteration Cycle
+
+### Step 1: Select a Single Feature
+
+- Choose the next feature from the Feature Requirements document.
+
+### Step 2: Backend Implementation (Core Functionality)
+
+-  Build FastAPI endpoint(s) and services
+-  Integrate required external APIs (OpenAI, SerpAPI, etc.)
+-  Implement validation, error handling, logging
+-  Add Pydantic models and schemas
+
+### Step 3: Backend Testing
+-  Write unit tests and integration tests using `pytest`
+-  Verify all edge cases and response formats
+-  Validate API contract for frontend consumption
+
+### ✅ Git Commit 1
+
+`feat: implement backend logic for [feature name]`
+
+### Step 4: Frontend Integration
+-  Implement the UI elements necessary for the feature using Next.js + Shadcn UI
+-  Connect UI with backend endpoints
+-  Handle basic loading/error/success states
+### Step 5: End-to-End Testing
+
+-  Perform real-time user testing through the frontend
+-  Handle cross-browser/device compatibility
+-  Simulate network/API errors gracefully
+
+### ✅ Git Commit 2
+
+`feat: complete end-to-end implementation of [feature name]`
+
+---
+
+## ✅ Enhancements to Improve Workflow
+
+### 🔁 CI/CD Integration
+
+- GitHub Actions to run tests on every push and PR
+    
+- Auto-deploy feature previews (Vercel / Azure SWA Preview Environments)
+    
+
+### 🚦 Feature Flags
+
+- Use toggles to enable/disable features in production or dev
+    
+
+### 🧪 E2E Test Suite (Optional in Future Phase)
+
+- Use Playwright or Cypress to automate UI tests with simulated voice input and expected assistant behavior
+    
+
+### 📋 Link to Feature Requirements
+
+- Ensure every PR references a feature in the `Feature Requirements` doc
+    
+- Acceptance criteria should be copied to the PR description for clarity
+    
+
+---
+
+## 🧭 Summary
+
+This cycle should be repeated for **each new feature** to ensure:
+
+- Robust backend APIs
+    
+- Functional frontend flows
+    
+- Confidence through testing
+    
+- Predictable version control and commits
+    
+- Clean incremental releases

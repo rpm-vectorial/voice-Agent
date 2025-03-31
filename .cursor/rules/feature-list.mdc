@@ -1,0 +1,181 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Feature 1: Voice-Based Conversation (E2E)
+### 📄 Description
+
+Enable users to converse with a voice agent that transcribes user speech and responds via natural-sounding voice.
+
+> As a user, I want to speak to the assistant and hear its response so that I can interact hands-free in a natural way.
+
+---
+
+### 🧪 Acceptance Criteria
+
+-  Scenario 1: Given mic input, when the user speaks, then it is transcribed accurately.
+-  Scenario 2: Given a transcription, when processed, then a voice response is generated and played.
+-  Scenario 3: If TTS fails, then a fallback to text display is used.
+
+---
+
+### 🛠️ Technical Notes
+
+> - Backend endpoints: `/transcribe`, `/speak`>     
+> - Frontend: Mic recorder, audio playbac component
+>     
+> - Uses GPT-4o for STT and OpenAI/ElevenLabs for TTS
+>     
+
+---
+
+### 📦 Dependencies
+
+> - OpenAI API Key
+>     
+> - Audio recorder in frontend
+>     
+
+---
+
+### 🎨 UI/UX (optional)
+
+> - Waveform during mic input
+>     
+> - Real-time transcription display
+>     
+> - Voice playback bubble
+>     
+
+## Feature 2: Voice Agent Web Search (E2E)
+
+### 📄 Description
+
+Enable the voice agent to perform web searches based on user input and return summarized results.
+
+> As a user, I want the assistant to search the internet and summarize answers so I can get information quickly.
+
+---
+
+### 🧪 Acceptance Criteria
+
+-  Scenario 1: Given a search question, when the user speaks, then the assistant performs a web search and speaks a summary.
+    
+-  Scenario 2: If the web search fails, then an appropriate error message is shown.
+    
+
+---
+
+### 🛠️ Technical Notes
+
+> - Backend endpoint: `/search`
+>     
+> - Uses Bing/SerpAPI and GPT-4o summarization
+>     
+> - Frontend: voice → query → response as audio/text
+>     
+
+---
+
+### 📦 Dependencies
+
+> - Web search API key
+>     
+> - OpenAI API
+>     
+
+---
+
+### 🎨 UI/UX (optional)
+
+> - Loader during search
+>     
+> - Result in expandable card with links
+>     
+
+## Feature 3: CUA Command Execution (E2E)
+
+### 📄 Description
+
+Allow the voice agent to recognize intent from commands and execute them using connected APIs.
+
+> As a user, I want the assistant to take action on commands (e.g., buy a book) so I can get things done via voice.
+
+---
+### 🧪 Acceptance Criteria
+
+-  Scenario 1: Given a command, when the assistant detects intent, then it confirms the action.
+    
+-  Scenario 2: After confirmation, the assistant performs the action and returns a result.
+    
+
+---
+### 🛠️ Technical Notes
+
+> - Backend endpoints: `/intent`, `/action`
+> - Intent classification via GPT-4o
+> - CUA registry to map actions
+>     
+
+---
+
+### 📦 Dependencies
+
+> - APIs for CUA actions (e.g., Amazon)
+> - OpenAI for intent parsing
+
+---
+
+### 🎨 UI/UX (optional)
+
+> - Confirmation dialog before execution
+>     
+> - Result card after action completes
+>     
+
+## Feature 4: Prompt Configurator (Admin Only)
+
+### 📄 Description
+
+Provide a UI for admins to customize prompts used by the assistant (e.g., tone, system behavior).
+
+> As an admin, I want to configure the assistant's prompt so I can control how it behaves and responds.
+
+---
+
+### 🧪 Acceptance Criteria
+
+-  Scenario 1: Given a text input, when saved, then the prompt is stored and used in future sessions.
+    
+-  Scenario 2: Prompt changes are reflected immediately or on restart.
+    
+
+---
+
+### 🛠️ Technical Notes
+
+> - Admin UI in frontend
+>     
+> - Backend endpoint to update prompt file or memory
+>     
+> - Secure admin route
+>     
+
+---
+
+### 📦 Dependencies
+
+> - Auth system for admin
+>     
+> - Storage for prompt config (DB, file)
+>     
+
+---
+
+### 🎨 UI/UX (optional)
+
+> - Text editor for prompt with syntax highlighting
+>     
+> - Save & preview button
+>

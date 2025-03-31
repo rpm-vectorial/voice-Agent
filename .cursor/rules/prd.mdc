@@ -1,0 +1,93 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Product Title
+
+**Conversational Voice Agent (CVA)**
+## Purpose
+
+To build a Siri-like AI voice assistant using OpenAI’s GPT-4o capabilities that allows natural voice interaction, performs intelligent web searches, and executes real-world tasks using Conversational User Actions (CUA).
+
+## Goals
+
+- Enable users to interact using voice in a fluid, human-like manner.
+- Provide accurate and real-time transcription using GPT-4o.
+- Deliver high-quality spoken responses.
+- Execute commands or tasks such as "buy a book" or "set a reminder."
+- Retrieve and summarize relevant information from the web
+    
+
+## Features
+
+### 1. Jazzy Conversational UI
+
+- Voice waveform animations
+- Conversational avatar or stylish chat bubbles
+- Real-time feedback and transitions
+
+### 2. Speech-to-Text via GPT-4o Transcriber
+
+- Mic input capture
+- Real-time audio chunking
+- Transcription via GPT-4o API
+
+### 3. Text-to-Speech (TTS)
+
+- Natural voice playback via OpenAI TTS or ElevenLabs
+- Visual cue while speaking
+- Retry and fallback system
+
+### 4. Web Search
+
+- Triggered for knowledge-seeking queries
+- Integrate with web search APIs (e.g., SerpAPI, Bing, Brave)
+- Summarize responses using GPT
+
+### 5. Conversational Understanding
+- Use GPT-4o for maintaining conversation state
+- Manage follow-ups and clarification
+
+### 6. Command Execution via CUA
+- Parse intents and entities
+- Execute external APIs (e.g., Amazon, Google Calendar)
+- Confirmation dialog before actions
+
+### 7. Settings & Personalization
+- Select TTS voice, themes, and assistant style
+- Toggle search and action capabilities
+
+## Non-Goals
+
+- Supporting offline or on-device STT/TTS.
+- Multi-language support in initial version.
+
+## Users
+
+- General users looking for a hands-free assistant
+- Tech-savvy users exploring GPT-powered automation
+
+## Assumptions
+
+- Users have stable internet connectivity
+- Users will authenticate for third-party services (e.g., Amazon)
+
+## Out of Scope
+
+- No deep integration with proprietary OS-level apps (e.g., iOS native calendar)
+- No support for continuous passive listening ("Hey Siri"-style wake word)
+
+## Milestones
+
+1. Prototype with STT, TTS, and GPT-4o integration
+2. Functional web search & summarization
+3. Modular CUA intent engine
+4. Final UI polish & deployment on Azure
+
+## Success Metrics
+
+- <2s transcription latency
+- > 90% transcription accuracy
+- > 85% task recognition accuracy
+- > 75% user satisfaction in usability testing
