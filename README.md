@@ -7,13 +7,13 @@ This repository contains a voice-based conversational AI agent built with OpenAI
 
 ```mermaid
 graph TD
-    subgraph "Core Components"
+    subgraph "Core_Components"
         A[timed_conversation.py] -->|Subprocess| B[openai_pipecat.py]
         B -->|Uses| C[voice_agent_utils.py]
         A -->|Uses| C
     end
 
-    subgraph "Voice Agent Pipeline"
+    subgraph "Voice_Agent_Pipeline"
         D[Microphone Input] -->|Audio Stream| E[Speech Detection]
         E -->|Audio Chunks| F[OpenAI Whisper API]
         F -->|Transcription| G[GPT-4o]
@@ -21,7 +21,7 @@ graph TD
         H -->|Audio Response| I[Speaker Output]
     end
 
-    subgraph "Termination Methods"
+    subgraph "Termination_Methods"
         J[Keyboard Interrupt] -->|Signal| K[Termination Handler]
         L[Voice Commands] -->|stop commands| K
         M[STOP/FORCE_STOP Files] -->|File Detection| K
@@ -29,8 +29,8 @@ graph TD
         K -->|Cleanup| O[Resource Release]
     end
 
-    B -->|Controls| Voice Agent Pipeline
-    B -->|Monitors| Termination Methods
+    B -->|Controls| Voice_Agent_Pipeline
+    B -->|Monitors| Termination_Methods
     C -->|Creates| M
     A -->|Manages| N
     
