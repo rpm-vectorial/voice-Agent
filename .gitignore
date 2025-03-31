@@ -12,6 +12,7 @@ __pycache__/
 env/
 venv/
 ENV/
+voice-agent/
 
 # Logs and temporary files
 *.log
