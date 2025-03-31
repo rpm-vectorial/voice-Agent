@@ -3,6 +3,150 @@
 ## Overview
 This repository contains a voice-based conversational AI agent built with OpenAI's APIs. The system enables natural voice interaction with an AI assistant by handling speech detection, transcription, response generation, and voice output.
 
+## System Architecture
+
+```mermaid
+graph TD
+    subgraph "Core Components"
+        A[timed_conversation.py] -->|Subprocess| B[openai_pipecat.py]
+        B -->|Uses| C[voice_agent_utils.py]
+        A -->|Uses| C
+    end
+
+    subgraph "Voice Agent Pipeline"
+        D[Microphone Input] -->|Audio Stream| E[Speech Detection]
+        E -->|Audio Chunks| F[OpenAI Whisper API]
+        F -->|Transcription| G[GPT-4o]
+        G -->|Text Response| H[OpenAI TTS API]
+        H -->|Audio Response| I[Speaker Output]
+    end
+
+    subgraph "Termination Methods"
+        J[Keyboard Interrupt] -->|Signal| K[Termination Handler]
+        L[Voice Commands] -->|"stop", "exit"| K
+        M[STOP/FORCE_STOP Files] -->|File Detection| K
+        N[Timer] -->|Time Limit| K
+        K -->|Cleanup| O[Resource Release]
+    end
+
+    B -->|Controls| Voice Agent Pipeline
+    B -->|Monitors| Termination Methods
+    C -->|Creates| M
+    A -->|Manages| N
+    
+    classDef primary fill:#4CAF50,stroke:#388E3C,color:white;
+    classDef secondary fill:#2196F3,stroke:#1976D2,color:white;
+    classDef tertiary fill:#FF9800,stroke:#F57C00,color:white;
+    
+    class A,B,C primary;
+    class D,E,F,G,H,I secondary;
+    class J,K,L,M,N,O tertiary;
+```
+
+## Data Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Mic as Microphone
+    participant VA as Voice Agent (openai_pipecat.py)
+    participant WT as Whisper Transcription
+    participant GPT as GPT-4o
+    participant TTS as Text-to-Speech
+    participant Speaker
+    participant Utils as voice_agent_utils.py
+    
+    User->>Mic: Speaks
+    Mic->>VA: Audio input stream
+    VA->>VA: Detect speech & silence
+    VA->>WT: Send audio chunks
+    WT->>VA: Return transcription
+    VA->>GPT: Send transcription
+    GPT->>VA: Return response text
+    VA->>TTS: Send response text
+    TTS->>VA: Return audio response
+    VA->>Speaker: Play audio
+    Speaker->>User: Audio response
+
+    alt Termination
+        User->>Mic: Say "stop", "exit"
+        Mic->>VA: Audio with stop command
+        VA->>VA: Detect termination phrase
+    else Keyboard Interrupt
+        User->>VA: Press Ctrl+C
+        VA->>VA: Catch signal
+    else File-based Termination
+        User->>Utils: Run with stop argument
+        Utils->>VA: Create STOP file
+        VA->>VA: Detect file and terminate
+    else Timer Termination
+        Note over VA,Utils: If timed_conversation.py is used
+        Utils->>VA: Create STOP after time expires
+    end
+    
+    VA->>VA: Clean up resources
+```
+
+## Code Structure
+
+```mermaid
+classDiagram
+    class AudioConfig {
+        +CHUNK: int
+        +FORMAT: pyaudio format
+        +CHANNELS: int
+        +RATE: int
+        +SILENCE_THRESHOLD: int
+        +SILENCE_DURATION: float
+        +CONVERSATION_TIMEOUT: float
+    }
+    
+    class AIConfig {
+        +STT_MODEL: string
+        +LLM_MODEL: string
+        +TTS_MODEL: string
+        +TTS_VOICE: string
+        +TEMPERATURE: float
+        +SYSTEM_PROMPT: string
+    }
+    
+    class VoiceAgent {
+        -running: bool
+        -messages: list
+        -audio: PyAudio
+        -client: OpenAI
+        +__init__()
+        +pipeline()
+        +record_audio()
+        +process_audio()
+        +get_response()
+        +play_audio()
+        +check_termination()
+        +cleanup()
+    }
+    
+    class UtilityFunctions {
+        +create_stop_file(force: bool)
+        +kill_python_processes(exclude_current: bool)
+        +stop_voice_agent(force: bool, kill_processes: bool)
+    }
+    
+    class TimedConversation {
+        -seconds: int
+        -process: Process
+        +run_voice_agent()
+        +timer_thread()
+        +create_stop_file()
+        +main()
+    }
+    
+    VoiceAgent --> AudioConfig: uses
+    VoiceAgent --> AIConfig: uses
+    VoiceAgent ..> UtilityFunctions: calls
+    TimedConversation ..> UtilityFunctions: calls
+    TimedConversation ..> VoiceAgent: starts as subprocess
+```
+
 ## Core Components
 
 ### 1. Main Voice Agent (`openai_pipecat.py`)
