@@ -23,7 +23,7 @@ graph TD
 
     subgraph "Termination Methods"
         J[Keyboard Interrupt] -->|Signal| K[Termination Handler]
-        L[Voice Commands] -->|"stop", "exit"| K
+        L[Voice Commands] -->|stop commands| K
         M[STOP/FORCE_STOP Files] -->|File Detection| K
         N[Timer] -->|Time Limit| K
         K -->|Cleanup| O[Resource Release]
