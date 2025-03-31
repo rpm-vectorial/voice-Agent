@@ -1,43 +1,81 @@
-# Voice Agent
+# Voice Agent Documentation
 
-A powerful voice conversation system that enables natural voice interactions using OpenAI's APIs. This system serves as the interfacing agent for an agentic framework, allowing users to interact with AI through speech.
+## Overview
+This repository contains a voice-based conversational AI agent built with OpenAI's APIs. The system enables natural voice interaction with an AI assistant by handling speech detection, transcription, response generation, and voice output.
 
-## Features
+## Core Components
 
-- **Real-time Speech Detection**: Accurately detects when a user starts and stops speaking
-- **Natural Conversation Flow**: Supports interruptions and maintains context
-- **High-quality Voice Synthesis**: Uses OpenAI's Text-to-Speech for natural-sounding responses
-- **Multi-modal Termination**: Multiple ways to stop the conversation (voice commands, keyboard, file-based)
-- **Graceful Resource Management**: Proper cleanup of resources when terminating
-- **Integrated Utilities**: Built-in tools for control and management of the voice agent
+### 1. Main Voice Agent (`openai_pipecat.py`)
+The primary application file that implements the voice conversation pipeline:
+- Handles audio input/output through your microphone and speakers
+- Detects speech and silence using adaptive thresholds
+- Transcribes speech using OpenAI's models
+- Generates responses via OpenAI's chat models
+- Outputs responses through text-to-speech
+- Monitors for termination signals (keyboard interrupts, stop files)
 
-## Architecture
+```bash
+# Run the voice agent with default settings
+python openai_pipecat.py
 
-The Voice Agent is structured as a pipeline of specialized components:
+# Stop the voice agent
+python openai_pipecat.py stop
 
+# Force stop the voice agent
+python openai_pipecat.py stop --force
+
+# Kill all Python processes (emergency use only)
+python openai_pipecat.py kill
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  Microphone     │───>│  Speech         │───>│  Language       │───>│  Text-to-Speech │
-│  (Audio Input)  │    │  Recognition    │    │  Model          │    │  Synthesis      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘
-        │                      │                      │                       │
-        │                      │                      │                       │
-        v                      v                      v                       v
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│                           Voice Activity Detection & Control                         │
-└─────────────────────────────────────────────────────────────────────────────────────┘
+
+### 2. Utility Module (`voice_agent_utils.py`)
+A shared library that provides control functions for the voice agent:
+- Creates STOP/FORCE_STOP files to signal termination
+- Contains functions to manage Python processes
+- Provides unified interfaces for stopping the voice agent
+
+```bash
+# Can be used directly to stop a running voice agent
+python voice_agent_utils.py
+python voice_agent_utils.py --force
+python voice_agent_utils.py --kill
 ```
 
-### Components
+### 3. Timed Conversation Script (`timed_conversation.py`)
+A wrapper script that runs the voice agent for a specified duration:
+- Takes command-line arguments to set a custom time limit
+- Creates a subprocess to run the main voice agent
+- Automatically terminates the conversation after the time limit
+- Ensures proper cleanup of resources
 
-- **Audio Input Service**: Captures audio from the microphone and detects speech
-- **Voice Activity Detection**: Analyzes audio to determine when speaking starts and stops
-- **Speech-to-Text Service**: Transcribes speech to text using OpenAI's Whisper model
-- **Language Model Service**: Generates responses using OpenAI's GPT-4o
-- **Text-to-Speech Service**: Converts responses to speech using OpenAI's TTS
-- **Voice Agent Utilities**: Provides integrated tools for controlling the agent
+```bash
+# Run the voice agent for 60 seconds (default)
+python timed_conversation.py
+
+# Run the voice agent for a custom duration (e.g., 30 seconds)
+python timed_conversation.py --time 30
+```
+
+## How It Works
+
+1. The system monitors audio input for speech using adaptive thresholds.
+2. When speech is detected, the audio is streamed to OpenAI's models for transcription.
+3. The transcribed text is sent to an OpenAI chat model to generate a response.
+4. The response is converted to speech and played back to the user.
+5. The conversation continues until the user stops it or a silence timeout occurs.
+
+## Termination Methods
+
+The voice agent can be terminated in multiple ways:
+- **Voice Commands**: Say "stop," "exit," "quit," or similar phrases
+- **Keyboard Interrupt**: Press Ctrl+C while the program is running
+- **Stop Files**: Create a STOP or FORCE_STOP file in the project directory
+- **Time Limit**: When using timed_conversation.py, the agent stops after the specified time
+- **Emergency Kill**: Use the kill functionality to terminate all Python processes
 
 ## Requirements
+
+The following dependencies are required:
 
 - Python 3.9+
 - OpenAI API key
